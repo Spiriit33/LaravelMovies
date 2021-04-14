@@ -52,7 +52,7 @@
                     {{ $actor['biography'] }}
                 </p>
 
-                <h4 class="font-semibold mt-12">Known For</h4>
+                <h4 class="font-semibold mt-12">Apparition les plus connus:</h4>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
                     @foreach ($knownForMovies as $movie)

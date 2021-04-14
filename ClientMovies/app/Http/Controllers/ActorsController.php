@@ -6,43 +6,46 @@ use Illuminate\Http\Request;
 use App\ViewModels\ActorViewModel;
 use App\ViewModels\ActorsViewModel;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class ActorsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param int $page
+     * @return View
      */
-    public function index($page = 1)
+    public function index($page = 1) : View
     {
         abort_if($page > 500, 204);
 
-        $popularActors = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/person/popular?page='.$page)
+        $popularActors = Http::get('http://127.0.0.1:8001/api/1/acteurs/page/'.$page.'')
             ->json()['results'];
 
         $viewModel = new ActorsViewModel($popularActors, $page);
 
         return view('actors.index', $viewModel);
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     * @return View
      */
-    public function show($id)
+    public function show(int $id) : View
     {
-        $actor = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/person/'.$id)
+        //Get actor details.
+        $actor = Http::get('http://127.0.0.1:8001/api/1/acteurs/show/'.$id.'')
             ->json();
 
-        $social = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/person/'.$id.'/external_ids')
+        //Get social media details.
+        $social = Http::get('http://127.0.0.1:8001/api/1/acteurs/show/'.$id.'/external_ids')
             ->json();
 
-        $credits = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/person/'.$id.'/combined_credits')
+        //Get credits.
+        $credits = Http::get('http://127.0.0.1:8001/api/1/acteurs/show/'.$id.'/combined_credits')
             ->json();
 
         $viewModel = new ActorViewModel($actor, $social, $credits);

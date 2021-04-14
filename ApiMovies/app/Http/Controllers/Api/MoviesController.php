@@ -39,7 +39,7 @@ class MoviesController extends Controller
     public function getByGenre(int $id)
     {
         return Http::withToken(config('tmdb.key'))
-            ->get('https://api.themoviedb.org/3/movie/now_playing')
+            ->get('https://api.themoviedb.org/3/discover/movie?with_genres='.$id.'')
             ->json()['results'];
     }
 
@@ -53,5 +53,22 @@ class MoviesController extends Controller
         return Http::withToken(config('tmdb.key'))
             ->get('https://api.themoviedb.org/3/movie/' . $id . '?append_to_response=credits,videos,images')
             ->json();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function addFavorite(int $id)
+    {
+            $movie = Http::withToken(config('tmdb.key'))
+            ->get('https://api.themoviedb.org/3/movie/' . $id . '')
+            ->json();
+
+            if (!$movie) {
+                abort(404);
+            }
+            else {
+
+            }
     }
 }

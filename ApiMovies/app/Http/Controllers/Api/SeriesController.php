@@ -30,4 +30,14 @@ class SeriesController extends Controller
             ->get('https://api.themoviedb.org/3/tv/top_rated')
             ->json()['results'];
     }
+
+    /**
+     *
+     */
+    public function show(int $id)
+    {
+        return Http::withToken(config('tmdb.key'))
+            ->get('https://api.themoviedb.org/3/tv/' . $id . '?append_to_response=credits,videos,images')
+            ->json();
+    }
 }

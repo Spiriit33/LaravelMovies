@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\ViewModels\MoviesSearch;
 use Illuminate\Http\Request;
 use App\ViewModels\MovieViewModel;
 use App\ViewModels\MoviesViewModel;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class MoviesController extends Controller
 {
     /**
-     * Display a listing of the resource.
      *
      */
-    public function index()
+    public function index() : View
     {
         $popularMovies = Http::get('http://127.0.0.1:8001/api/1/movies/popular')
             ->json();
@@ -24,84 +25,44 @@ class MoviesController extends Controller
         $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
             ->json();
 
-        $genresDetails = $genres;
-
         $viewModel = new MoviesViewModel(
             $popularMovies,
             $nowPlayingMovies,
             $genres
         );
-        return view('movies.index', $viewModel,compact('genresDetails'));
+        return view('movies.index', $viewModel);
     }
-
     /**
-     * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return View
      */
-    public function create()
+    public function show(int $id): View
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id): \Illuminate\Http\Response
-    {
-        $movie = Http::get('http://127.0.0.1:8001/api/1/movies/'.$id.'')
+        $movie = Http::get('http://127.0.0.1:8001/api/1/movies/' . $id . '')
+            ->json();
+        $suggestions = Http::get('http://127.0.0.1:8001/api/1/movies/genres/' . $movie['genres'][0]['id'] . '')
             ->json();
 
-        $viewModel = new MovieViewModel($movie);
-
+        $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
+            ->json();
+        $viewModel = new MovieViewModel($movie,$suggestions,$genres);
         return view('movies.show', $viewModel);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return View
      */
-    public function edit($id)
+    public function getByGenre(int $id): View
     {
-        //
-    }
+        $movies = Http::get('http://127.0.0.1:8001/api/1/movies/genres/'.$id.'')
+        ->json();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
+            ->json();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $viewModel = new MoviesSearch($movies,$genres);
+        return view('movies.search',$viewModel);
     }
 }

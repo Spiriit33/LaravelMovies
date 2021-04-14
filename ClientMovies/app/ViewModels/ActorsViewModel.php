@@ -2,13 +2,25 @@
 
 namespace App\ViewModels;
 
+use Illuminate\Support\Collection;
 use Spatie\ViewModels\ViewModel;
 
 class ActorsViewModel extends ViewModel
 {
-    public $popularActors;
-    public $page;
+    /**
+     * @var array
+     */
+    private array $popularActors;
+    /**
+     * @var int
+     */
+    private int $page;
 
+    /**
+     * ActorsViewModel constructor.
+     * @param $popularActors
+     * @param $page
+     */
     public function __construct($popularActors, $page)
     {
         $this->popularActors = $popularActors;
@@ -16,7 +28,10 @@ class ActorsViewModel extends ViewModel
         $this->page = $page;
     }
 
-    public function popularActors()
+    /**
+     * @return Collection
+     */
+    public function popularActors(): Collection
     {
         return collect($this->popularActors)->map(function($actor) {
             return collect($actor)->merge([
@@ -32,12 +47,20 @@ class ActorsViewModel extends ViewModel
         });
     }
 
-    public function previous()
+    /**
+     * Previous pagination
+     * @return int|null
+     */
+    public function previous(): ?int
     {
         return $this->page > 1 ? $this->page - 1 : null;
     }
 
-    public function next()
+    /**
+     * Next pagination.
+     * @return int|null
+     */
+    public function next(): ?int
     {
         return $this->page < 500 ? $this->page + 1 : null;
     }

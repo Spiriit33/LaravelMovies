@@ -6,27 +6,24 @@ use Illuminate\Http\Request;
 use App\ViewModels\TvViewModel;
 use App\ViewModels\TvShowViewModel;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class TvController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() : View
     {
-        $popularTv = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/tv/popular')
-            ->json()['results'];
+        $popularTv = Http::get('http://127.0.0.1:8001/api/1/series/popular')
+                    ->json();
 
-        $topRatedTv = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/tv/top_rated')
-            ->json()['results'];
+        $topRatedTv = Http::get('http://127.0.0.1:8001/api/1/series/rated')
+            ->json();
 
-        $genres = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/genre/tv/list')
-            ->json()['genres'];
+        $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
+            ->json();
 
         $viewModel = new TvViewModel(
             $popularTv,
@@ -36,76 +33,20 @@ class TvController extends Controller
 
         return view('tv.index', $viewModel);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function show($id)
+    public function show(int $id) : View
     {
-        $tvshow = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/tv/'.$id.'?append_to_response=credits,videos,images')
+        $serie = Http::get('http://127.0.0.1:8001/api/1/series/'.$id.'')
             ->json();
 
-        $viewModel = new TvShowViewModel($tvshow);
+
+        $viewModel = new TvShowViewModel($serie);
 
         return view('tv.show', $viewModel);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

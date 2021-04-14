@@ -14,10 +14,43 @@ class ActorsController extends Controller
      * @param int $page
      * @return array
      */
-    public function getAll(int $page = 1): array
+    public function getPopular(int $page = 1): array
     {
         return Http::withToken(config('tmdb.key'))
-            ->get('https://api.themoviedb.org/3/person/popular?page='.$page)
-            ->json()['results'];
+            ->get('https://api.themoviedb.org/3/person/popular?page=' . $page)
+            ->json();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function show(int $id): array
+    {
+        return Http::withToken(config('tmdb.key'))
+            ->get('https://api.themoviedb.org/3/person/'.$id.'')
+            ->json();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getExternalIds(int $id): array
+    {
+        return Http::withToken(config('tmdb.key'))
+            ->get('https://api.themoviedb.org/3/person/' . $id . '/external_ids')
+            ->json();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getCombinedCredits(int $id): array
+    {
+        return Http::withToken(config('tmdb.key'))
+            ->get('https://api.themoviedb.org/3/person/' . $id . '/combined_credits')
+            ->json();
     }
 }

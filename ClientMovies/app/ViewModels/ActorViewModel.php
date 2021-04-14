@@ -3,14 +3,30 @@
 namespace App\ViewModels;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Spatie\ViewModels\ViewModel;
 
 class ActorViewModel extends ViewModel
 {
-    public $actor;
-    public $social;
-    public $credits;
+    /**
+     * @var array
+     */
+    private array $actor;
+    /**
+     * @var array
+     */
+    private array $social;
+    /**
+     * @var array
+     */
+    private array $credits;
 
+    /**
+     * ActorViewModel constructor.
+     * @param $actor
+     * @param $social
+     * @param $credits
+     */
     public function __construct($actor, $social, $credits)
     {
         $this->actor = $actor;
@@ -18,7 +34,10 @@ class ActorViewModel extends ViewModel
         $this->credits = $credits;
     }
 
-    public function actor()
+    /**
+     * @return Collection
+     */
+    public function actor(): Collection
     {
         return collect($this->actor)->merge([
             'birthday' => Carbon::parse($this->actor['birthday'])->format('M d, Y'),
@@ -31,7 +50,10 @@ class ActorViewModel extends ViewModel
         ]);
     }
 
-    public function social()
+    /**
+     * @return Collection
+     */
+    public function social(): Collection
     {
         return collect($this->social)->merge([
             'twitter' => $this->social['twitter_id'] ? 'https://twitter.com/'.$this->social['twitter_id'] : null,
@@ -42,7 +64,10 @@ class ActorViewModel extends ViewModel
         ]);
     }
 
-    public function knownForMovies()
+    /**
+     * @return Collection
+     */
+    public function knownForMovies(): Collection
     {
         $castMovies = collect($this->credits)->get('cast');
 
@@ -67,8 +92,10 @@ class ActorViewModel extends ViewModel
         });
     }
 
-
-    public function credits()
+    /**
+     * @return Collection
+     */
+    public function credits() : Collection
     {
         $castMovies = collect($this->credits)->get('cast');
 

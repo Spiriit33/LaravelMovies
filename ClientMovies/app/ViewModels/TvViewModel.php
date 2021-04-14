@@ -8,17 +8,11 @@ use Spatie\ViewModels\ViewModel;
 
 class TvViewModel extends ViewModel
 {
-    /**
-     * @var array
-     */
+    /** @var array  */
     private array $popularTv;
-    /**
-     * @var array
-     */
+    /** @var array  */
     private array $topRatedTv;
-    /**
-     * @var array
-     */
+    /** @var array  */
     private array $genres;
 
     /**

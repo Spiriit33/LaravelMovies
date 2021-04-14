@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto px-4 pt-16">
         <div class="popular-tv">
-            <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold">Series Populaire</h2>
+            <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold">Les plus populaires</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 @foreach ($popularTv as $tvshow)
                     <x-tv-card :tvshow="$tvshow" />
@@ -13,7 +13,7 @@
         </div> <!-- end popular-tv -->
 
         <div class="top-rated-shows py-24">
-            <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold">Series les mieux notés</h2>
+            <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold">Les mieux notés</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 @foreach ($topRatedTv as $tvshow)
                     <x-tv-card :tvshow="$tvshow" />

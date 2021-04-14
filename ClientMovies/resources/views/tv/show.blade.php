@@ -26,7 +26,7 @@
                         @foreach ($tvshow['created_by'] as $crew)
                             <div class="mr-8">
                                 <div>{{ $crew['name'] }}</div>
-                                <div class="text-sm text-gray-400">Creator</div>
+                                <div class="text-sm text-gray-400">Créateur</div>
                             </div>
 
                         @endforeach
@@ -41,7 +41,7 @@
                                 class="flex inline-flex items-center bg-orange-500 text-gray-900 rounded font-semibold px-5 py-4 hover:bg-orange-600 transition ease-in-out duration-150"
                             >
                                 <svg class="w-6 fill-current" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                                <span class="ml-2">Play Trailer</span>
+                                <span class="ml-2">Voir le trailer</span>
                             </button>
                         </div>
 
@@ -75,11 +75,11 @@
 
             </div>
         </div>
-    </div> <!-- end tv-info -->
+    </div>
 
     <div class="tv-cast border-b border-gray-800">
         <div class="container mx-auto px-4 py-16">
-            <h2 class="text-4xl font-semibold">Cast</h2>
+            <h2 class="text-4xl font-semibold">Casting</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 @foreach ($tvshow['cast'] as $cast)
                     <div class="mt-8">
