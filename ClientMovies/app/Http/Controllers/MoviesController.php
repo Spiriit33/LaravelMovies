@@ -25,12 +25,14 @@ class MoviesController extends Controller
         $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
             ->json();
 
+        $genresNav = $genres;
+
         $viewModel = new MoviesViewModel(
             $popularMovies,
             $nowPlayingMovies,
             $genres
         );
-        return view('movies.index', $viewModel);
+        return view('movies.index', $viewModel,compact('genresNav'));
     }
     /**
      *
@@ -46,8 +48,10 @@ class MoviesController extends Controller
 
         $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
             ->json();
+
+        $genresNav = $genres;
         $viewModel = new MovieViewModel($movie,$suggestions,$genres);
-        return view('movies.show', $viewModel);
+        return view('movies.show', $viewModel,compact('genresNav'));
     }
 
     /**
@@ -62,7 +66,9 @@ class MoviesController extends Controller
         $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
             ->json();
 
+        $genresNav = $genres;
+
         $viewModel = new MoviesSearch($movies,$genres);
-        return view('movies.search',$viewModel);
+        return view('movies.search',$viewModel,compact('genresNav'));
     }
 }

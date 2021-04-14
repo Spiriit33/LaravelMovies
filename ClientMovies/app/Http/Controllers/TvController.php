@@ -25,13 +25,15 @@ class TvController extends Controller
         $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
             ->json();
 
+        $genresNav = $genres;
+
         $viewModel = new TvViewModel(
             $popularTv,
             $topRatedTv,
             $genres,
         );
 
-        return view('tv.index', $viewModel);
+        return view('tv.index', $viewModel,compact('genresNav'));
     }
     /**
      * Display the specified resource.
@@ -44,9 +46,12 @@ class TvController extends Controller
         $serie = Http::get('http://127.0.0.1:8001/api/1/series/'.$id.'')
             ->json();
 
+        $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
+            ->json();
 
+        $genresNav = $genres;
         $viewModel = new TvShowViewModel($serie);
 
-        return view('tv.show', $viewModel);
+        return view('tv.show', $viewModel,compact('genresNav'));
     }
 }

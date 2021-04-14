@@ -25,7 +25,12 @@ class ActorsController extends Controller
 
         $viewModel = new ActorsViewModel($popularActors, $page);
 
-        return view('actors.index', $viewModel);
+        $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
+            ->json();
+
+        $genresNav = $genres;
+
+        return view('actors.index', $viewModel,compact('genresNav'));
     }
 
     /**
@@ -48,8 +53,13 @@ class ActorsController extends Controller
         $credits = Http::get('http://127.0.0.1:8001/api/1/acteurs/show/'.$id.'/combined_credits')
             ->json();
 
+        $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
+            ->json();
+
+        $genresNav = $genres;
+
         $viewModel = new ActorViewModel($actor, $social, $credits);
 
-        return view('actors.show', $viewModel);
+        return view('actors.show', $viewModel,compact('genresNav'));
     }
 }

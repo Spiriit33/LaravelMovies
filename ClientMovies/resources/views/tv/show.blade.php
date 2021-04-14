@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main',['genres' => $genresNav])
 
 @section('content')
     <div class="tv-info border-b border-gray-800">

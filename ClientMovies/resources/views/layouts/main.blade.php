@@ -35,8 +35,8 @@
                         </button>
                         <ul class="dropdown-menu bg-dark absolute hidden text-gray-700 pt-1 p-3" style="background:#1a202c;">
                             @if(isset($genres))
-                            @foreach ($genresHead as $genre)
-                            <li class=""><a class="rounded-t hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="{{route('movies.genres',$genre['id'])}}">{{$genre}}</a></li>
+                            @foreach ($genres as $genre)
+                            <li class=""><a class="rounded-t hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="{{route('movies.genres',$genre['id'])}}">{{$genre['name']}}</a></li>
                                 @endforeach
                                 @endif
                         </ul>

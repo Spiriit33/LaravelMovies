@@ -24,12 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('layouts.main', function($view) {
-            $genres = Http::get('http://127.0.0.1:8001/api/1/genres/films/list')
-                ->object();
-            $genres = $this->genres($genres);
-            $view->with(array('genresHead' => $genres));
-        });
+
     }
 
     private function genres($genres)

@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main',['genres' => $genresNav])
 
 @section('content')
     <div class="container mx-auto px-4 pt-16">
